@@ -3,24 +3,72 @@ package Queue;
 import java.util.Iterator;
 import node.node;
 
-public class Queue<T extends Comparable<T>> implements iQueue<T>, Iterable<T> {
+public class Queue<T> implements iQueue<T>, Iterable<T> {
 	
 	private int tam = 0;
-	private int count = 0;
 	private node<T> sentinel = null;
 	private node<T> tmp = null;
 	node<T> entrada;
+    public node<T> back, front;
+    public int count = 0, size = 10;
+    private node<T> start = null;
+    private node<T> end = null;
+
+	public Queue(){
+		start = new node<>();
+        end = new node<>();
+        node<T> nodo = new node<>();
+        start.setIndex(-1);
+        end.setIndex(-1);
+        node<T> tmp = start.getRight();
+        start.setRight(nodo);
+        nodo.setLeft(start);
+        while (count < size) {
+            node<T> _new = new node<>();
+            tmp.setRight(_new);
+            _new.setLeft(tmp);
+            tmp = tmp.getRight();
+            count += 1;
+        }
+        end.setLeft(tmp);
+        Reindex();
+        front = start.getRight();
+        back = start.getRight();
+    }
 	
-	public Queue()
-	{
-		sentinel = new node<T>();
-		sentinel.setIndex(-1);
-		tam = 10;
-	}
+    public Queue(int size) {
+        count = 0;
+        this.size = size;
+        start = new node<>();
+        start.setIndex(-1);
+        end = new node<>();
+        end.setIndex(-1);
+        node<T> nodo = new node<>();
+        start.setRight(nodo);
+        nodo.setLeft(start);
+        node<T> tmp = start.getRight();
+        while (count < size) {
+            node<T> _new = new node<>();
+            tmp.setRight(_new);
+            _new.setLeft(tmp);
+            tmp = tmp.getRight();
+            count += 1;
+        }
+        end.setLeft(tmp);
+        Reindex();
+        front = start.getRight();
+        back = start.getRight();
+        count = 0;
+    }
 	
-	public Queue(int tam)
-	{
-		this();
+	private void Reindex() {
+		node<T> tmp = start;
+        int i = 0;
+        while (tmp.getRight() != null) {
+            tmp = tmp.getRight();
+            tmp.setIndex(i);
+            i++;
+        }
 	}
 	
 	@Override
@@ -45,7 +93,7 @@ public class Queue<T extends Comparable<T>> implements iQueue<T>, Iterable<T> {
 	@Override
 	public void enQueue(T value) throws QueueFullException 
 	{
-		if (isFull()) throw new QueueFullException("Cola Llena Por De Quitar Elementos");
+		if (isFull()) throw new QueueFullException("Cola Llena");
 		tmp = sentinel.getRight();
 		entrada = new node<T>(value);
 		if(isEmpty())

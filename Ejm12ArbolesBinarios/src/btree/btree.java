@@ -1,17 +1,13 @@
 package btree;
 
-
-
-import javax.swing.plaf.RootPaneUI;
-
 import Queue.Queue;
-import mx.maxa.linkedlist.Cola;
-import mx.maxa.linkedlist.ColaFullEx;
+import Queue.QueueFullException;
+
 import node.node;
 public class btree<T extends Comparable<T>> implements Comparable<T> {
 	private node<T>     root    = null;
-	private int         height  = 0; 
-    private Queue<node<T>> nodeCola;
+	private int         height  = 0,count = 0, size = 0;; 
+    private Queue<node<T>> nodeCola; 
 	
 	public btree() {
 		this.root =  new node<>();
@@ -152,12 +148,9 @@ public class btree<T extends Comparable<T>> implements Comparable<T> {
 		}else 
 			return null;
 	}
-	private boolean isEmpty() {
-		if (root.getValue() == null) {
-			return true;
-		}
-		return false;
-	}
+	public boolean isEmpty() {
+        return root == null;	
+        }
 	
 	public node<T> deepSearch(T value){
 		return deepSearch(value,root);
@@ -174,11 +167,26 @@ public class btree<T extends Comparable<T>> implements Comparable<T> {
 		}else 
 			return null;
 	}
+	
+	private int Altura(node<T> root) {
+        if (root == null)
+            return 0;
+        else {
+            int lef = Altura(root.getLeft());
+            int rig = Altura(root.getRight());
+
+            if (lef > rig)
+                return (lef + 1);
+            else return (rig + 1);
+        }
+    }
+
+	
     public node<T> breadthSearch(T value) {
         
-        int haltura = height(root);
-        nodeCola = new Cola<>(size);
-        for (int i = 1; i < haltura; i++) {
+        int altura = Altura(root);
+        nodeCola = new Queue<>(size);
+        for (int i = 1; i < altura; i++) {
             breadthSearch(root, i);
 
         }
@@ -191,8 +199,8 @@ public class btree<T extends Comparable<T>> implements Comparable<T> {
         if (depth == 1) {
             try {
                 nodeCola.enQueue(root);
-            } catch (ColaFullEx colaFullEx) {
-                colaFullEx.printStackTrace();
+            } catch (QueueFullException queueFullException) {
+                queueFullException.printStackTrace();
             }
         } else if (depth > 1) {
             breadthSearch(root.getLeft(), depth - 1);
@@ -243,29 +251,28 @@ public class btree<T extends Comparable<T>> implements Comparable<T> {
 		return false;
 	}
 	
-	public void Anchura (Nodo Nodo) /* El metodo "Anchura" solicita un parametro "Nodo"(raiz) de tipo "Nodo".*/
-	{
-	Queue<T> cola= new Queue<>(); /* Se declara una variable "cola" de tipo "Cola" y se crea la instancia por default.*/
-	node<T> tmp = null; /* Se declara una variable "T"(temporal) de tipo "Nodo" con valor inicial de "null".*/
-	System.out.print("\n\nEl recorrido en Anchura es:\n\n"); /*Se imprime en pantalla.*/
-	if(Nodo != null) /* Si el parametro "Nodo" es diferente de "null"...*/
-	{
-	cola.InsertaFinal (Nodo); /* Se hace una llamada al método "InsertarFinal" pasando como parámetro, el parámetro "Nodo"(RAIZ), como primer nodo en la cola.*/
-	while(!(cola.isEmpty())) /* Mientras haya eleentos en la cola ...*/
-	{
-	tmp = cola.PrimerNodo.datos; /* Se le asigna a "T" el elemento extraído de la cola.*/
-	cola.EliminaInicio(); /* Se elimina de cola el elemento.*/
-	System.out.println(tmp.dato + " "); /* Se imprime en pantalla.*/
-	if (tmp.izq != null) /* Si el nodo izquierdo existe...*/
-	cola.InsertaFinal (tmp.izq); /* se inserta el nodo izquierdo como elemento siguiente en la cola.*/
-	if (tmp.der != null) /* Si el nodo derecho existe...*/
-	cola.InsertaFinal (tmp.der); /* se inserta el nodo derecho como elemento siguiente en la cola.*/
-	}
-	}
-	System.out.println(); /* Se imprime un enter en pantalla.*/
-	}
-
 	
+	/* public void Anchura (Nodo Nodo){ El metodo "Anchura" solicita un parametro "Nodo"(raiz) de tipo "Nodo".
+	Queue<T> cola= new Queue<>(); /* Se declara una variable "cola" de tipo "Cola" y se crea la instancia por default.
+	node<T> tmp = null; /* Se declara una variable "T"(temporal) de tipo "Nodo" con valor inicial de "null".
+	System.out.print("\n\nEl recorrido en Anchura es:\n\n"); /*Se imprime en pantalla.
+	if(Nodo != null) /* Si el parametro "Nodo" es diferente de "null"...
+	{
+	cola.InsertaFinal (Nodo); /* Se hace una llamada al método "InsertarFinal" pasando como parámetro, el parámetro "Nodo"(RAIZ), como primer nodo en la cola.
+	while(!(cola.isEmpty())) /* Mientras haya eleentos en la cola ...
+	{
+	tmp = cola.PrimerNodo.datos; /* Se le asigna a "T" el elemento extraído de la cola.
+	cola.EliminaInicio(); /* Se elimina de cola el elemento.
+	System.out.println(tmp.dato + " "); /* Se imprime en pantalla.
+	if (tmp.izq != null) /* Si el nodo izquierdo existe...
+	cola.InsertaFinal (tmp.izq); /* se inserta el nodo izquierdo como elemento siguiente en la cola.
+	if (tmp.der != null) /* Si el nodo derecho existe...
+	cola.InsertaFinal (tmp.der); /* se inserta el nodo derecho como elemento siguiente en la cola.
+	}
+	}
+	System.out.println(); /* Se imprime un enter en pantalla.
+	}
+*/
 	@Override
 	public int compareTo(T o) {
 		// TODO Auto-generated method stub

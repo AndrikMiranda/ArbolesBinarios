@@ -7,6 +7,42 @@ public class App {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
+        btree<Integer> prueba = new btree<>();
+
+        prueba.add(20);
+        prueba.add(40);
+        prueba.add(10);
+        prueba.add(60);
+        prueba.add(50);
+        prueba.add(30);
+        prueba.add(70);
+        prueba.add(75);
+        prueba.add(22);
+
+        System.out.println("breadthsearch: ");
+        System.out.println(""+prueba.breadthSearch(70));
+        System.out.println("preorder:");
+        prueba.printPreorder();
+        System.out.println("posorder");
+        prueba.printPosOrder();
+        System.out.println("inorder");
+        prueba.printInorder();
+        System.out.println("\nborrar:");
+        prueba.clear();
+        System.out.println("isempty:");
+        System.out.println(""+prueba.isEmpty());
+        
+        System.out.println(""+prueba.deepSearch(70));
+		
+	}
+		
+		
+		
+		
+		
+		
+		/*
 		btree<Integer> numeritos = new btree<Integer>();
 		btree<String> names = new btree<String>();
 		numeritos.add(0);
@@ -17,7 +53,7 @@ public class App {
 		numeritos.add(10);
 		numeritos.add(11);
 		numeritos.add(12);
-		
+		*/
 		/*numeritos.add(0);
 		numeritos.add(0);
 	/*	int i=0,value = (int)Math.random()*100;
@@ -27,15 +63,14 @@ public class App {
 			i++;
 		}*/
 		//numeritos.remove(0);
-		numeritos.clear();
+		//numeritos.clear();
 		
 		//System.out.println("La profundidad es: " + numeritos.maxDepth()); 
-		numeritos.printInorder();
-		System.out.println("\n---------------");
+		//numeritos.printInorder();
+		
 		//numeritos.printPosOrder();
-		System.out.println("\n---------------");
 		//numeritos.printPreorder();
-	//	while (numeritos.remove(0));
+		//while (numeritos.remove(0));
 		//System.out.println("");
 		//System.out.println("--------------------------------------");
 		//numeritos.printInorder();
@@ -53,9 +88,7 @@ public class App {
 		names.printInorder();
 		*/
 		
-		
-		
-	}
+
 
 }
 
